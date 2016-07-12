@@ -21,12 +21,16 @@ Define_Module(SMS);
 void SMS::initialize()
 {
     if (strcmp("sms", getName()) == 0) {
-        cMessage *msg = new cMessage("Hello World!");
-        send(msg, "conn$o");
+        for(int ii=0; ii<100; ii++){
+            cMessage *msg = new cMessage("Hello World!");
+            scheduleAt(simTime(),msg);
+        }
     }
 }
 
 void SMS::handleMessage(cMessage *msg)
 {
-    send(msg, "conn$o");
+    if(!msg->arrivedOn("conn$i")){
+       send(msg, "conn$o");
+    }
 }

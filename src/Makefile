@@ -1,12 +1,12 @@
 #
-# OMNeT++/OMNEST Makefile for YesbossDispatcher
+# OMNeT++/OMNEST Makefile for YesBossDispatcher
 #
 # This file was generated with the command:
 #  opp_makemake -f --deep
 #
 
 # Name of target to be created (-o option)
-TARGET = YesbossDispatcher$(EXE_SUFFIX)
+TARGET = YesBossDispatcher$(EXE_SUFFIX)
 
 # User interface (uncomment one) (-u option)
 USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(QTENV_LIBS) $(CMDENV_LIBS)
@@ -114,7 +114,7 @@ smheaders: $(SMFILES:.sm=_sm.h)
 clean:
 	$(qecho) Cleaning...
 	$(Q)-rm -rf $O
-	$(Q)-rm -f YesbossDispatcher YesbossDispatcher.exe libYesbossDispatcher.so libYesbossDispatcher.a libYesbossDispatcher.dll libYesbossDispatcher.dylib
+	$(Q)-rm -f YesBossDispatcher YesBossDispatcher.exe libYesBossDispatcher.so libYesBossDispatcher.a libYesBossDispatcher.dll libYesBossDispatcher.dylib
 	$(Q)-rm -f ./*_m.cc ./*_m.h ./*_sm.cc ./*_sm.h
 
 cleanall: clean

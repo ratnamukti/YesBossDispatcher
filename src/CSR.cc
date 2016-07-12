@@ -19,10 +19,15 @@ Define_Module(CSR);
 
 void CSR::initialize()
 {
-
+    message_count = 0;
 }
 
 void CSR::handleMessage(cMessage *msg)
 {
-    send(msg, "conn$o");
+    if(msg->arrivedOn("conn$i")){
+        scheduleAt(simTime()+message_count * 100,msg);
+        message_count++;
+    } else{
+        send(msg, "conn$o");
+    }
 }

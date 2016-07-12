@@ -26,6 +26,8 @@ using namespace omnetpp;
 class Dispatcher : public cSimpleModule
 {
   protected:
+    int csr_index;
+    int total_csr;
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
 };

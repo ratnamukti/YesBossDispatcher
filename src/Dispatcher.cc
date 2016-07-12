@@ -17,25 +17,22 @@
 
 Define_Module(Dispatcher);
 
-int total_csr = 0;
-int csr_count = 0;
-
 void Dispatcher::initialize()
 {
-    total_csr = getParentModule()->par("csr_count");
+    csr_index = 0;
+    total_csr = this->par("csr_num");
 }
 
 void Dispatcher::handleMessage(cMessage *msg)
 {
     if(msg->arrivedOn("toSMS$i")){
-        send(msg, "toCSR$o", csr_count);
-        if(csr_count++ == total_csr){
-            csr_count = 0;
+        send(msg, "toCSR$o", csr_index);
+        if(++csr_index == total_csr){
+            csr_index = 0;
         }
     }
 
     if(msg->arrivedOn("toCSR$i")){
-        send(msg, "toSMS$o", csr_count);
+        send(msg, "toSMS$o");
     }
-
 }
