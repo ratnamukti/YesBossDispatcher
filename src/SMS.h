@@ -20,13 +20,17 @@
 
 using namespace omnetpp;
 
+class Message;
+
 /**
  * TODO - Generated class
  */
 class SMS : public cSimpleModule
 {
   protected:
+    int total_message;
     virtual void initialize();
+    virtual Message *createJob();
     virtual void handleMessage(cMessage *msg);
 };
 

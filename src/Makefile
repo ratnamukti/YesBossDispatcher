@@ -29,10 +29,11 @@ PROJECTRELATIVE_PATH = src
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
-OBJS = $O/CSR.o $O/Dispatcher.o $O/SMS.o
+OBJS = $O/CSR.o $O/Dispatcher.o $O/SMS.o $O/Message_m.o
 
 # Message files
-MSGFILES =
+MSGFILES = \
+    Message.msg
 
 # SM files
 SMFILES =
@@ -129,6 +130,9 @@ $O/CSR.o: CSR.cc \
 	CSR.h
 $O/Dispatcher.o: Dispatcher.cc \
 	Dispatcher.h
+$O/Message_m.o: Message_m.cc \
+	Message_m.h
 $O/SMS.o: SMS.cc \
+	Message_m.h \
 	SMS.h
 

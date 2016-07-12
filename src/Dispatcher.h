@@ -20,6 +20,8 @@
 
 using namespace omnetpp;
 
+class Message;
+
 /**
  * TODO - Generated class
  */

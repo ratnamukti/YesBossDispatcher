@@ -25,7 +25,7 @@ void CSR::initialize()
 void CSR::handleMessage(cMessage *msg)
 {
     if(msg->arrivedOn("conn$i")){
-        scheduleAt(simTime()+message_count * 100,msg);
+        scheduleAt(simTime()+message_count * 100, msg);
         message_count++;
     } else{
         send(msg, "conn$o");

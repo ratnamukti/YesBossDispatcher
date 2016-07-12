@@ -13,28 +13,11 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "SMS.h"
-#include "Message_m.h"
-
-Define_Module(SMS);
-
-void SMS::initialize() {
-    scheduleAt(0, new cMessage("START"));
+//
+// TODO generated message class
+//
+message Message 
+{
+    int csr_id;
 }
 
-Message *SMS::createJob() {
-    char buf[80];
-    sprintf(buf, "Message-%d", ++total_message);
-    Message *job = new Message(buf);
-    return job;
-}
-
-void SMS::handleMessage(cMessage *msg) {
-    if (!msg->arrivedOn("conn$i")) {
-        delete msg;
-        for (int i = 0; i < 10; i++) {
-            Message *job = createJob();
-            send(job, "conn$o");
-        }
-    }
-}
