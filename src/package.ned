@@ -1,0 +1,3 @@
+package yesbossdispatcher;
+
+@license(LGPL);

@@ -1,0 +1,1 @@
+-DWITH_QTENV -DWITH_OSG -DWITH_TKENV -DHAVE_PCAP -DXMLPARSER=libxml -DWITH_PARSIM -DWITH_NETBUILDER  -g -Wall   -isystem /Users/desiratnamukti/Movies/Torrent/omnetpp-5.0/tools/macosx/include -Wno-deprecated-register -fno-stack-protector   -I. -I/Users/desiratnamukti/Movies/Torrent/omnetpp-5.0/include
