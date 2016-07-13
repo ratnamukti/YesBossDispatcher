@@ -17,17 +17,13 @@
 
 Define_Module(CSR);
 
-void CSR::initialize()
-{
-    message_count = 0;
+void CSR::initialize() {
 }
 
-void CSR::handleMessage(cMessage *msg)
-{
-    if(msg->arrivedOn("conn$i")){
-        scheduleAt(simTime()+message_count * 100, msg);
-        message_count++;
-    } else{
+void CSR::handleMessage(cMessage *msg) {
+    if (msg->isSelfMessage()) {
         send(msg, "conn$o");
+    } else {
+        scheduleAt(0, msg);
     }
 }

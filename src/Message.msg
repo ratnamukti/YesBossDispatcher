@@ -18,6 +18,6 @@
 //
 message Message 
 {
-    int csr_id;
+    int csr_id = -1;
 }
 

@@ -30,11 +30,13 @@ Message *SMS::createJob() {
 }
 
 void SMS::handleMessage(cMessage *msg) {
-    if (!msg->arrivedOn("conn$i")) {
+    if (msg->isSelfMessage()) {
         delete msg;
         for (int i = 0; i < 10; i++) {
             Message *job = createJob();
             send(job, "conn$o");
         }
+    } else {
+        send(msg, "conn$o");
     }
 }

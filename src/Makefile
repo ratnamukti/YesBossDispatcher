@@ -129,7 +129,8 @@ depend:
 $O/CSR.o: CSR.cc \
 	CSR.h
 $O/Dispatcher.o: Dispatcher.cc \
-	Dispatcher.h
+	Dispatcher.h \
+	Message_m.h
 $O/Message_m.o: Message_m.cc \
 	Message_m.h
 $O/SMS.o: SMS.cc \

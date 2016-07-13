@@ -14,25 +14,30 @@
 // 
 
 #include "Dispatcher.h"
+#include "Message_m.h"
 
 Define_Module(Dispatcher);
 
-void Dispatcher::initialize()
-{
+void Dispatcher::initialize() {
     csr_index = 0;
     total_csr = this->par("csr_num");
 }
 
-void Dispatcher::handleMessage(cMessage *msg)
-{
-    if(msg->arrivedOn("toSMS$i")){
-        send(msg, "toCSR$o", csr_index);
-        if(++csr_index == total_csr){
-            csr_index = 0;
+void Dispatcher::handleMessage(cMessage *msg) {
+    if (msg->arrivedOn("toSMS$i")) {
+        Message *job = check_and_cast<Message *>(msg);
+        if (job->getCsr_id() == -1) {
+            job->setCsr_id(csr_index);
+            send(job, "toCSR$o", csr_index);
+            if (++csr_index == total_csr) {
+                csr_index = 0;
+            }
+        } else {
+            send(job, "toCSR$o", job->getCsr_id());
         }
     }
 
-    if(msg->arrivedOn("toCSR$i")){
+    if (msg->arrivedOn("toCSR$i")) {
         send(msg, "toSMS$o");
     }
 }
