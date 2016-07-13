@@ -20,11 +20,12 @@ Define_Module(SMS);
 
 void SMS::initialize() {
     scheduleAt(0, new cMessage("START"));
+    total_message = this->par("sms_num");
 }
 
 Message *SMS::createJob() {
     char buf[80];
-    sprintf(buf, "Message-%d", ++total_message);
+    sprintf(buf, "Message-%d", ++message_counter);
     Message *job = new Message(buf);
     return job;
 }
@@ -32,7 +33,7 @@ Message *SMS::createJob() {
 void SMS::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage()) {
         delete msg;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < total_message; i++) {
             Message *job = createJob();
             send(job, "conn$o");
         }

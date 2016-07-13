@@ -20,6 +20,8 @@ package yesbossdispatcher;
 //
 simple SMS
 {
-     gates:
+    parameters:
+        int sms_num = default(10);
+    gates:
         inout conn;
 }

@@ -26,7 +26,7 @@ using namespace omnetpp;
 class CSR : public cSimpleModule
 {
   protected:
-    int message_count;
+    int count_message;
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
 };

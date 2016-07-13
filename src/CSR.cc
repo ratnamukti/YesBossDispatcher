@@ -18,12 +18,14 @@
 Define_Module(CSR);
 
 void CSR::initialize() {
+    count_message = 0;
 }
 
 void CSR::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage()) {
         send(msg, "conn$o");
     } else {
-        scheduleAt(0, msg);
+        count_message++;
+        scheduleAt(count_message * 60, msg);
     }
 }

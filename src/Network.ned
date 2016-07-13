@@ -20,6 +20,7 @@ network Network
     @display("bgb=492,224");
 
     int csr_count = default(5);
+    int message_num = default(10);
     
     submodules:
         dispatcher: Dispatcher {
@@ -28,6 +29,7 @@ network Network
         }
         sms: SMS {
             @display("p=64,108");
+            sms_num = message_num;
         }
         csr[csr_count]: CSR {
             @display("p=417,108");

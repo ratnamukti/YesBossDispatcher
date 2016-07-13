@@ -29,6 +29,7 @@ class SMS : public cSimpleModule
 {
   protected:
     int total_message;
+    int message_counter;
     virtual void initialize();
     virtual Message *createJob();
     virtual void handleMessage(cMessage *msg);
