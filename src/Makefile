@@ -127,7 +127,8 @@ depend:
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/CSR.o: CSR.cc \
-	CSR.h
+	CSR.h \
+	Message_m.h
 $O/Dispatcher.o: Dispatcher.cc \
 	Dispatcher.h \
 	Message_m.h

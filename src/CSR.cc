@@ -14,6 +14,7 @@
 // 
 
 #include "CSR.h"
+#include "Message_m.h"
 
 Define_Module(CSR);
 
@@ -25,7 +26,9 @@ void CSR::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage()) {
         send(msg, "conn$o");
     } else {
+        Message *job = check_and_cast<Message *>(msg);
+        job->setState(job->getState() + 1);
         count_message++;
-        scheduleAt(count_message * 60, msg);
+        scheduleAt(count_message * 60, job);
     }
 }

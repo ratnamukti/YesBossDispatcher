@@ -166,6 +166,7 @@ Register_Class(Message);
 Message::Message(const char *name, int kind) : ::omnetpp::cMessage(name,kind)
 {
     this->csr_id = -1;
+    this->state = 0;
 }
 
 Message::Message(const Message& other) : ::omnetpp::cMessage(other)
@@ -188,18 +189,21 @@ Message& Message::operator=(const Message& other)
 void Message::copy(const Message& other)
 {
     this->csr_id = other.csr_id;
+    this->state = other.state;
 }
 
 void Message::parsimPack(omnetpp::cCommBuffer *b) const
 {
     ::omnetpp::cMessage::parsimPack(b);
     doParsimPacking(b,this->csr_id);
+    doParsimPacking(b,this->state);
 }
 
 void Message::parsimUnpack(omnetpp::cCommBuffer *b)
 {
     ::omnetpp::cMessage::parsimUnpack(b);
     doParsimUnpacking(b,this->csr_id);
+    doParsimUnpacking(b,this->state);
 }
 
 int Message::getCsr_id() const
@@ -210,6 +214,16 @@ int Message::getCsr_id() const
 void Message::setCsr_id(int csr_id)
 {
     this->csr_id = csr_id;
+}
+
+int Message::getState() const
+{
+    return this->state;
+}
+
+void Message::setState(int state)
+{
+    this->state = state;
 }
 
 class MessageDescriptor : public omnetpp::cClassDescriptor
@@ -276,7 +290,7 @@ const char *MessageDescriptor::getProperty(const char *propertyname) const
 int MessageDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 1+basedesc->getFieldCount() : 1;
+    return basedesc ? 2+basedesc->getFieldCount() : 2;
 }
 
 unsigned int MessageDescriptor::getFieldTypeFlags(int field) const
@@ -289,8 +303,9 @@ unsigned int MessageDescriptor::getFieldTypeFlags(int field) const
     }
     static unsigned int fieldTypeFlags[] = {
         FD_ISEDITABLE,
+        FD_ISEDITABLE,
     };
-    return (field>=0 && field<1) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<2) ? fieldTypeFlags[field] : 0;
 }
 
 const char *MessageDescriptor::getFieldName(int field) const
@@ -303,8 +318,9 @@ const char *MessageDescriptor::getFieldName(int field) const
     }
     static const char *fieldNames[] = {
         "csr_id",
+        "state",
     };
-    return (field>=0 && field<1) ? fieldNames[field] : nullptr;
+    return (field>=0 && field<2) ? fieldNames[field] : nullptr;
 }
 
 int MessageDescriptor::findField(const char *fieldName) const
@@ -312,6 +328,7 @@ int MessageDescriptor::findField(const char *fieldName) const
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount() : 0;
     if (fieldName[0]=='c' && strcmp(fieldName, "csr_id")==0) return base+0;
+    if (fieldName[0]=='s' && strcmp(fieldName, "state")==0) return base+1;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -325,8 +342,9 @@ const char *MessageDescriptor::getFieldTypeString(int field) const
     }
     static const char *fieldTypeStrings[] = {
         "int",
+        "int",
     };
-    return (field>=0 && field<1) ? fieldTypeStrings[field] : nullptr;
+    return (field>=0 && field<2) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **MessageDescriptor::getFieldPropertyNames(int field) const
@@ -380,6 +398,7 @@ std::string MessageDescriptor::getFieldValueAsString(void *object, int field, in
     Message *pp = (Message *)object; (void)pp;
     switch (field) {
         case 0: return long2string(pp->getCsr_id());
+        case 1: return long2string(pp->getState());
         default: return "";
     }
 }
@@ -395,6 +414,7 @@ bool MessageDescriptor::setFieldValueAsString(void *object, int field, int i, co
     Message *pp = (Message *)object; (void)pp;
     switch (field) {
         case 0: pp->setCsr_id(string2long(value)); return true;
+        case 1: pp->setState(string2long(value)); return true;
         default: return false;
     }
 }

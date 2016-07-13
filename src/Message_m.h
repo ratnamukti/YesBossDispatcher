@@ -24,6 +24,7 @@
  * message Message
  * {
  *     int csr_id = -1;
+ *     int state = 0;
  * }
  * </pre>
  */
@@ -31,6 +32,7 @@ class Message : public ::omnetpp::cMessage
 {
   protected:
     int csr_id;
+    int state;
 
   private:
     void copy(const Message& other);
@@ -51,6 +53,8 @@ class Message : public ::omnetpp::cMessage
     // field getter/setter methods
     virtual int getCsr_id() const;
     virtual void setCsr_id(int csr_id);
+    virtual int getState() const;
+    virtual void setState(int state);
 };
 
 inline void doParsimPacking(omnetpp::cCommBuffer *b, const Message& obj) {obj.parsimPack(b);}

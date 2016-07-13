@@ -38,6 +38,11 @@ void SMS::handleMessage(cMessage *msg) {
             send(job, "conn$o");
         }
     } else {
-        send(msg, "conn$o");
+        Message *job = check_and_cast<Message *>(msg);
+        if(job->getState() != 8){
+            send(msg, "conn$o");
+        } else{
+            delete msg;
+        }
     }
 }
