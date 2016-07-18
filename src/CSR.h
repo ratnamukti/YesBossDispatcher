@@ -23,10 +23,10 @@ using namespace omnetpp;
 /**
  * TODO - Generated class
  */
-class CSR : public cSimpleModule
-{
-  protected:
-    double time;
+class CSR: public cSimpleModule {
+protected:
+    double last_time;
+    double delay;
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
     virtual double max(double a);

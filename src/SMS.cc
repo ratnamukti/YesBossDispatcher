@@ -21,11 +21,11 @@ Define_Module(SMS);
 void SMS::initialize() {
     total_message = this->par("sms_num");
     message_counter = 0;
-    purchase_delay = 100;
+    payment_delay = 100;
     response_delay = 10;
     for (int ii = 0; ii < total_message; ii++) {
         Message *job = createJob();
-        double time = job->getTime() + ii * 50;
+        double time = job->getTime() + ii;
         job->setTime(time);
         scheduleAt(time, job);
     }
@@ -47,15 +47,15 @@ void SMS::handleMessage(cMessage *msg) {
         } else {
             int state = job->getState();
             if (state == 5) {
-                double time = job->getTime() + purchase_delay;
+                double time = job->getTime() + payment_delay;
                 job->setTime(time);
                 scheduleAt(time, job);
-            } else if (state == 7) {
-
             } else {
-                double time = job->getTime() + response_delay;
-                job->setTime(time);
-                scheduleAt(time, job);
+                if (state != 6) {
+                    double time = job->getTime() + response_delay;
+                    job->setTime(time);
+                    scheduleAt(time, job);
+                }
             }
         }
     } else {

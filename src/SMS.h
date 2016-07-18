@@ -29,7 +29,7 @@ class SMS: public cSimpleModule {
 protected:
     int total_message;
     int message_counter;
-    double purchase_delay;
+    double payment_delay;
     double response_delay;
     virtual void initialize();
     virtual Message *createJob();
