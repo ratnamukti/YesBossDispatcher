@@ -167,6 +167,7 @@ Message::Message(const char *name, int kind) : ::omnetpp::cMessage(name,kind)
 {
     this->csr_id = -1;
     this->state = 0;
+    this->time = 0;
 }
 
 Message::Message(const Message& other) : ::omnetpp::cMessage(other)
@@ -190,6 +191,7 @@ void Message::copy(const Message& other)
 {
     this->csr_id = other.csr_id;
     this->state = other.state;
+    this->time = other.time;
 }
 
 void Message::parsimPack(omnetpp::cCommBuffer *b) const
@@ -197,6 +199,7 @@ void Message::parsimPack(omnetpp::cCommBuffer *b) const
     ::omnetpp::cMessage::parsimPack(b);
     doParsimPacking(b,this->csr_id);
     doParsimPacking(b,this->state);
+    doParsimPacking(b,this->time);
 }
 
 void Message::parsimUnpack(omnetpp::cCommBuffer *b)
@@ -204,6 +207,7 @@ void Message::parsimUnpack(omnetpp::cCommBuffer *b)
     ::omnetpp::cMessage::parsimUnpack(b);
     doParsimUnpacking(b,this->csr_id);
     doParsimUnpacking(b,this->state);
+    doParsimUnpacking(b,this->time);
 }
 
 int Message::getCsr_id() const
@@ -224,6 +228,16 @@ int Message::getState() const
 void Message::setState(int state)
 {
     this->state = state;
+}
+
+double Message::getTime() const
+{
+    return this->time;
+}
+
+void Message::setTime(double time)
+{
+    this->time = time;
 }
 
 class MessageDescriptor : public omnetpp::cClassDescriptor
@@ -290,7 +304,7 @@ const char *MessageDescriptor::getProperty(const char *propertyname) const
 int MessageDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 2+basedesc->getFieldCount() : 2;
+    return basedesc ? 3+basedesc->getFieldCount() : 3;
 }
 
 unsigned int MessageDescriptor::getFieldTypeFlags(int field) const
@@ -304,8 +318,9 @@ unsigned int MessageDescriptor::getFieldTypeFlags(int field) const
     static unsigned int fieldTypeFlags[] = {
         FD_ISEDITABLE,
         FD_ISEDITABLE,
+        FD_ISEDITABLE,
     };
-    return (field>=0 && field<2) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<3) ? fieldTypeFlags[field] : 0;
 }
 
 const char *MessageDescriptor::getFieldName(int field) const
@@ -319,8 +334,9 @@ const char *MessageDescriptor::getFieldName(int field) const
     static const char *fieldNames[] = {
         "csr_id",
         "state",
+        "time",
     };
-    return (field>=0 && field<2) ? fieldNames[field] : nullptr;
+    return (field>=0 && field<3) ? fieldNames[field] : nullptr;
 }
 
 int MessageDescriptor::findField(const char *fieldName) const
@@ -329,6 +345,7 @@ int MessageDescriptor::findField(const char *fieldName) const
     int base = basedesc ? basedesc->getFieldCount() : 0;
     if (fieldName[0]=='c' && strcmp(fieldName, "csr_id")==0) return base+0;
     if (fieldName[0]=='s' && strcmp(fieldName, "state")==0) return base+1;
+    if (fieldName[0]=='t' && strcmp(fieldName, "time")==0) return base+2;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -343,8 +360,9 @@ const char *MessageDescriptor::getFieldTypeString(int field) const
     static const char *fieldTypeStrings[] = {
         "int",
         "int",
+        "double",
     };
-    return (field>=0 && field<2) ? fieldTypeStrings[field] : nullptr;
+    return (field>=0 && field<3) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **MessageDescriptor::getFieldPropertyNames(int field) const
@@ -399,6 +417,7 @@ std::string MessageDescriptor::getFieldValueAsString(void *object, int field, in
     switch (field) {
         case 0: return long2string(pp->getCsr_id());
         case 1: return long2string(pp->getState());
+        case 2: return double2string(pp->getTime());
         default: return "";
     }
 }
@@ -415,6 +434,7 @@ bool MessageDescriptor::setFieldValueAsString(void *object, int field, int i, co
     switch (field) {
         case 0: pp->setCsr_id(string2long(value)); return true;
         case 1: pp->setState(string2long(value)); return true;
+        case 2: pp->setTime(string2double(value)); return true;
         default: return false;
     }
 }

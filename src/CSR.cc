@@ -19,7 +19,7 @@
 Define_Module(CSR);
 
 void CSR::initialize() {
-    count_message = 0;
+    time = 0;
 }
 
 void CSR::handleMessage(cMessage *msg) {
@@ -27,8 +27,27 @@ void CSR::handleMessage(cMessage *msg) {
         send(msg, "conn$o");
     } else {
         Message *job = check_and_cast<Message *>(msg);
+        // TODO delay type
+        double time = job->getTime() + 100;
+        job->setTime(time);
         job->setState(job->getState() + 1);
-        count_message++;
-        scheduleAt(count_message * 60, job);
+        scheduleAt(time, job);
     }
 }
+
+double CSR::max(double a) {
+    if (a > 0) {
+        return a;
+    } else {
+        return 0;
+    }
+}
+
+/*
+ * - Typing Time
+ * - Research Time
+ * - Payment Time
+ * - Order Time
+ * - Idle Time
+ * - Switching Time
+ */

@@ -25,14 +25,16 @@ class Message;
 /**
  * TODO - Generated class
  */
-class SMS : public cSimpleModule
-{
-  protected:
+class SMS: public cSimpleModule {
+protected:
     int total_message;
     int message_counter;
+    double purchase_delay;
+    double response_delay;
     virtual void initialize();
     virtual Message *createJob();
     virtual void handleMessage(cMessage *msg);
+    virtual double max(double a);
 };
 
 #endif

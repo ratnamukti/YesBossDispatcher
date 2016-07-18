@@ -20,5 +20,6 @@ message Message
 {
     int csr_id = -1;
     int state = 0;
+    double time = 0;
 }
 

@@ -19,8 +19,17 @@
 Define_Module(SMS);
 
 void SMS::initialize() {
-    scheduleAt(0, new cMessage("START"));
     total_message = this->par("sms_num");
+    message_counter = 0;
+    purchase_delay = 100;
+    response_delay = 10;
+    for (int ii = 0; ii < total_message; ii++) {
+        Message *job = createJob();
+        double time = job->getTime() + ii * 50;
+        job->setTime(time);
+        scheduleAt(time, job);
+    }
+
 }
 
 Message *SMS::createJob() {
@@ -31,18 +40,39 @@ Message *SMS::createJob() {
 }
 
 void SMS::handleMessage(cMessage *msg) {
-    if (msg->isSelfMessage()) {
-        delete msg;
-        for (int i = 0; i < total_message; i++) {
-            Message *job = createJob();
-            send(job, "conn$o");
+    if (!msg->isSelfMessage()) {
+        Message *job = check_and_cast<Message *>(msg);
+        if (job->getState() == 1) {
+            send(msg, "conn$o");
+        } else {
+            int state = job->getState();
+            if (state == 5) {
+                double time = job->getTime() + purchase_delay;
+                job->setTime(time);
+                scheduleAt(time, job);
+            } else if (state == 7) {
+
+            } else {
+                double time = job->getTime() + response_delay;
+                job->setTime(time);
+                scheduleAt(time, job);
+            }
         }
     } else {
-        Message *job = check_and_cast<Message *>(msg);
-        if(job->getState() != 8){
-            send(msg, "conn$o");
-        } else{
-            delete msg;
-        }
+        send(msg, "conn$o");
     }
 }
+
+/*
+ * - Response Time
+ * - Payment Time
+ */
+
+/*
+ *  1 : FR
+ *  2 : AD
+ *  3 : Sol
+ *  4 : AD
+ *  5 : P
+ *  6 : F
+ */
