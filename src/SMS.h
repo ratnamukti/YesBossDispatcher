@@ -34,7 +34,6 @@ protected:
     virtual void initialize();
     virtual Message *createJob();
     virtual void handleMessage(cMessage *msg);
-    virtual double max(double a);
 };
 
 #endif
